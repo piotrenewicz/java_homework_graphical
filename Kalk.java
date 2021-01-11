@@ -5,9 +5,10 @@ import java.awt.*;
 public class Kalk implements ActionListener
 {
    JTextField t1;
-   JButton b1;
-   JButton bplus,brow;
- 
+   JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b0;
+   JButton bdot, bcl, bmemory;
+   JButton bplus, bminus, bmultiply, bdivide, brow, bsqrt, bpow, bproc;
+    
    double x,buf;
  
    public void actionPerformed(ActionEvent e)                  
@@ -59,7 +60,7 @@ public class Kalk implements ActionListener
       t1.setHorizontalAlignment(JTextField.RIGHT);                              
       gbc.gridx=0;                                                              
       gbc.gridy=0;                                                              
-      gbc.gridwidth=5;                                                          
+      gbc.gridwidth=4;                                                          
       gbc.ipadx=0;                                                              
       gbc.ipady=5;                                                              
       gbc.insets=new Insets(5,5,0,5);                                           
@@ -67,7 +68,7 @@ public class Kalk implements ActionListener
       c.add(t1);                                                                
  
  
- 
+        //====================cyfry========================
       b1=new JButton("1");                                                      
       b1.addActionListener(this);                                               
       b1.setFocusable(false);                                                   
@@ -76,41 +77,236 @@ public class Kalk implements ActionListener
       gbc.gridwidth=1;                                                          
       gbc.ipadx=0;                                                              
       gbc.ipady=0;                                                              
-      gbc.insets=new Insets(5,5,0,0);                                           
+      gbc.insets=new Insets(5,5,5,0);                                           
       gbl.setConstraints(b1,gbc);                                               
-      c.add(b1);                                                                
- 
- 
- 
-      bplus=new JButton("+");                                                   
-      bplus.addActionListener(this);                                            
-      bplus.setFocusable(false);                                                
-      bplus.setToolTipText("dodawanie");                                        
+      c.add(b1);
+      
+      b2=new JButton("2");                                                      
+      b2.addActionListener(this);                                               
+      b2.setFocusable(false);                                                   
+      gbc.gridx=1;                                                              
+      gbc.gridy=1;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                                                
+      gbl.setConstraints(b2,gbc);                                               
+      c.add(b2);  
+
+      b3=new JButton("3");                                                      
+      b3.addActionListener(this);                                               
+      b3.setFocusable(false);                                                   
+      gbc.gridx=2;                                                              
+      gbc.gridy=1;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                         
+      gbl.setConstraints(b3,gbc);                                               
+      c.add(b3);  
+
+      b4=new JButton("4");                                                      
+      b4.addActionListener(this);                                               
+      b4.setFocusable(false);                                                   
+      gbc.gridx=0;                                                              
+      gbc.gridy=2;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b4,gbc);                                               
+      c.add(b4);
+      
+      b5=new JButton("5");                                                      
+      b5.addActionListener(this);                                               
+      b5.setFocusable(false);                                                   
+      gbc.gridx=1;                                                              
+      gbc.gridy=2;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b5,gbc);                                               
+      c.add(b5); 
+
+      b6=new JButton("6");                                                      
+      b6.addActionListener(this);                                               
+      b6.setFocusable(false);                                                   
+      gbc.gridx=2;                                                              
+      gbc.gridy=2;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b6,gbc);                                               
+      c.add(b6); 
+
+      b7=new JButton("7");                                                      
+      b7.addActionListener(this);                                               
+      b7.setFocusable(false);                                                   
+      gbc.gridx=0;                                                              
+      gbc.gridy=3;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b7,gbc);                                               
+      c.add(b7);
+      
+      b8=new JButton("8");                                                      
+      b8.addActionListener(this);                                               
+      b8.setFocusable(false);                                                   
+      gbc.gridx=1;                                                              
+      gbc.gridy=3;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b8,gbc);                                               
+      c.add(b8); 
+
+      b9=new JButton("9");                                                      
+      b9.addActionListener(this);                                               
+      b9.setFocusable(false);                                                   
+      gbc.gridx=2;                                                              
+      gbc.gridy=3;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b9,gbc);                                               
+      c.add(b9);
+      
+      b0=new JButton("0");                                                      
+      b0.addActionListener(this);                                               
+      b0.setFocusable(false);                                                   
+      gbc.gridx=0;                                                              
+      gbc.gridy=4;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(b0,gbc);                                               
+      c.add(b0);
+      
+      //===============kropka=====================
+      bdot=new JButton(".");                                                      
+      bdot.addActionListener(this);                                               
+      bdot.setFocusable(false);                                                   
+      gbc.gridx=1;                                                              
+      gbc.gridy=4;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bdot,gbc);                                               
+      c.add(bdot);
+
+        //======================clear line====================
+      bcl=new JButton("cl");                                                      
+      bcl.addActionListener(this);                                               
+      bcl.setFocusable(false);                                                   
+      gbc.gridx=2;                                                              
+      gbc.gridy=4;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bcl,gbc);                                               
+      c.add(bcl);
+
+        //==================dzialania matematyczne===================
+      bplus=new JButton("+");                                                      
+      bplus.addActionListener(this);                                               
+      bplus.setFocusable(false);                                                   
       gbc.gridx=3;                                                              
       gbc.gridy=1;                                                              
-      gbc.gridwidth=2;                                                          
-      gbc.ipadx=30;                                                             
-      gbc.ipady=0;                                                              
-      gbc.insets=new Insets(5,5,0,5);                                           
-      gbl.setConstraints(bplus,gbc);                                            
-      c.add(bplus);                                                             
- 
- 
- 
-      brow=new JButton("=");                                                    
-      brow.addActionListener(this);                                             
-      brow.setFocusable(false);                                                 
-      brow.setToolTipText("wykonaj działanie");                                 
-      gbc.gridx=0;                                                              
-      gbc.gridy=5;                                                              
-      gbc.gridwidth=4;                                                          
-      gbc.ipadx=30;                                                             
-      gbc.ipady=0;                                                              
-      gbc.insets=new Insets(5,5,5,0);                                           
-      gbl.setConstraints(brow,gbc);                                             
-      c.add(brow);                                                              
- 
- 
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bplus,gbc);                                               
+      c.add(bplus);
+
+      bminus=new JButton("-");                                                      
+      bminus.addActionListener(this);                                               
+      bminus.setFocusable(false);                                                   
+      gbc.gridx=3;                                                              
+      gbc.gridy=2;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bminus,gbc);                                               
+      c.add(bminus);
+
+      bmultiply=new JButton("\u2715");                                                      
+      bmultiply.addActionListener(this);                                               
+      bmultiply.setFocusable(false);                                                   
+      gbc.gridx=3;                                                              
+      gbc.gridy=3;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bmultiply,gbc);                                               
+      c.add(bmultiply);
+
+      bdivide=new JButton("/");                                                      
+      bdivide.addActionListener(this);                                               
+      bdivide.setFocusable(false);                                                   
+      gbc.gridx=4;                                                              
+      gbc.gridy=1;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bdivide,gbc);                                               
+      c.add(bdivide);
+
+      bsqrt=new JButton("\u221A");                                                      
+      bsqrt.addActionListener(this);                                               
+      bsqrt.setFocusable(false);                                                   
+      gbc.gridx=4;                                                              
+      gbc.gridy=2;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bsqrt,gbc);                                               
+      c.add(bsqrt);
+
+      bpow=new JButton("x^");                                                      
+      bpow.addActionListener(this);                                               
+      bpow.setFocusable(false);                                                   
+      gbc.gridx=4;                                                              
+      gbc.gridy=3;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bpow,gbc);                                               
+      c.add(bpow);
+
+      bproc=new JButton("%");                                                      
+      bproc.addActionListener(this);                                               
+      bproc.setFocusable(false);                                                   
+      gbc.gridx=3;                                                              
+      gbc.gridy=4;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bproc,gbc);                                               
+      c.add(bproc);
+
+      brow=new JButton("=");                                                      
+      brow.addActionListener(this);                                               
+      brow.setFocusable(false);                                                   
+      gbc.gridx=3;                                                              
+      gbc.gridy=4;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bproc,gbc);                                               
+      c.add(brow);
+
+      //===================memory==================
+
+      bmemory=new JButton("m");                                                      
+      bmemory.addActionListener(this);                                               
+      bmemory.setFocusable(false);                                                   
+      gbc.gridx=4;                                                              
+      gbc.gridy=4;                                                              
+      gbc.gridwidth=1;                                                          
+      gbc.ipadx=0;                                                              
+      gbc.ipady=0;                                          
+      gbl.setConstraints(bmemory,gbc);                                               
+      c.add(bmemory);
+
+
  
       f.pack();                                                                 
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                         
