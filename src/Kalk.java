@@ -16,10 +16,10 @@ public class Kalk implements ActionListener
    }
    opcode op;
 //   Boolean addBool = false;
-   Boolean minBool = false;
-   Boolean divBool = false;
-   Boolean mulBool = false;
-   Boolean powBool = false;
+//   Boolean minBool = false;
+//   Boolean divBool = false;
+//   Boolean mulBool = false;
+//   Boolean powBool = false;
    Boolean dot_on_screen = false;
     
    double x, buf, mem;
@@ -67,29 +67,29 @@ public class Kalk implements ActionListener
          screen_append(".");
       }
       else if(input == '+'){
+         op = opcode.add;
          buf=Double.parseDouble(t1.getText());
          clear_screen();
-         op = opcode.add;
       }
       else if(input == '-'){
+         op = opcode.sub;
          buf=Double.parseDouble(t1.getText());
          clear_screen();
-         minBool = true;
       }
       else if(input == '*'){
+         op = opcode.mul;
          buf=Double.parseDouble(t1.getText());
          clear_screen();
-         mulBool = true;
       }
       else if(input == '/'){
+         op = opcode.div;
          buf=Double.parseDouble(t1.getText());
          clear_screen();
-         divBool = true;
       }
       else if(input == '^'){
+         op = opcode.pow;
          buf=Double.parseDouble(t1.getText());
          clear_screen();
-         powBool = true;
       }
       else if(input == 'r'){
          buf = Double.parseDouble(t1.getText());
@@ -121,35 +121,31 @@ public class Kalk implements ActionListener
             bmemory.setForeground(Color.BLACK);
          }
       }
-      else if(input == '=' || input == '\n'){
+      else if(input == '='){
          x = 0;
          x = Double.parseDouble(t1.getText());
          if (op == opcode.add) {
             x = buf + x;
          }
-         else if (minBool) {
+         else if (op == opcode.sub) {
             x = buf - x;
          }
-         else if (mulBool) {
+         else if (op == opcode.mul) {
             x = buf * x;
          }
-         else if (divBool) {
+         else if (op == opcode.div) {
             if(x == 0){
                t1.setText("Błąd dzielenia przez 0!"); return;
             }else{
                x = buf / x;
             }
          }
-         else if (powBool) {
+         else if (op == opcode.pow) {
             x = pow(buf, x);
          }
          set_number(x);
-         op = opcode.NaN; // resetowanie operacji.
+//         op = opcode.NaN; // resetowanie operacji.
          // Jeśli chcemy powtarzać ostatnią operacje za pomocą =, możemy tą linie wywalić.
-         minBool = false;
-         divBool = false;
-         mulBool = false;
-         powBool = false;
       }
 
    }
@@ -158,34 +154,6 @@ public class Kalk implements ActionListener
    public void actionPerformed(ActionEvent e)                  
    {                                                           
       Object target = e.getSource();
-
-//      if(target == bdot){
-//         if(dot_on_screen){
-//            return;
-//         }
-//         dot_on_screen = true;
-//      }
-//
-//      if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
-//              || target==b6 || target==b7 || target==b8 || target==b9 || target==b0 || target==bdot)
-//      {
-//         t1.setText(t1.getText()+((JButton)target).getText());
-//         t1.requestFocus();
-//      }
-//
-//      else if(target==bplus)
-//      {
-//         buf=Double.parseDouble(t1.getText());
-//         clear_screen();
-//         addBool = true;
-//      }
-//
-//      else if(target==bminus)
-//      {
-//         buf=Double.parseDouble(t1.getText());
-//         clear_screen();
-//         minBool = true;
-//      }
 
       if(target==bmultiply)
       {
@@ -197,58 +165,8 @@ public class Kalk implements ActionListener
          action_on_char('^');
       }
 
-//      else if(target==bdivide)
-//      {
-//         buf=Double.parseDouble(t1.getText());
-//         clear_screen();
-//         divBool = true;
-//      }
-
       else if(target == bsqrt) {
          action_on_char('r');
-      }
-
-
-      else if(target == bproc) {
-         action_on_char('%');
-      }
- 
-//      else if(target==brow||target==t1) {
-//         x = Double.parseDouble(t1.getText());
-//         if (addBool) {
-//            x = buf + x;
-//         }
-//         else if (minBool) {
-//            x = buf - x;
-//         }
-//         else if (mulBool) {
-//            x = buf * x;
-//         }
-//         else if (divBool) {
-//            if(x == 0){
-//               t1.setText("Błąd dzielenia przez 0!"); return;
-//            }else{
-//               x = buf / x;
-//            }
-//         }
-//         else if (powBool) {
-//            x = pow(buf, x);
-//         }
-//         set_number(x);
-//
-//         addBool = false;
-//         minBool = false;
-//         divBool = false;
-//         mulBool = false;
-//         powBool = false;
-//      }
-
-      else if(target == bcl)
-      {
-         action_on_char('c');
-      }
-      else if(target == bmemory){
-         action_on_char('m');
       }
 
       else {
@@ -297,7 +215,16 @@ public class Kalk implements ActionListener
       t1.addKeyListener(new KeyAdapter() {
          @Override
          public void keyPressed(KeyEvent e) {
-            action_on_char(e.getKeyChar());
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+               action_on_char('=');
+            }
+            else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+               action_on_char('c');
+            }
+            else {
+               action_on_char(e.getKeyChar());
+            }
+
          }
       }
       );
