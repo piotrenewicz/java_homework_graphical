@@ -109,7 +109,7 @@ public class Kalk implements ActionListener
          clear_screen();
       }
       else if(input == 'm'){
-         if(mem_flag == false){
+         if(!mem_flag){
             mem_flag = true;
             mem= Double.parseDouble(t1.getText());
             clear_screen();
