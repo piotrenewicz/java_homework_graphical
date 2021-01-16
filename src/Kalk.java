@@ -82,6 +82,11 @@ public class Kalk implements ActionListener
          clear_screen();
          divBool = true;
       }
+      else if(input == '^'){
+         buf=Double.parseDouble(t1.getText());
+         clear_screen();
+         powBool = true;
+      }
       else if(input == '='){
 
       }
@@ -127,6 +132,26 @@ public class Kalk implements ActionListener
          action_on_char('*');
       }
 
+      else if(target==bminus)
+      {
+         action_on_char('-');
+      }
+
+      else if(target==bplus)
+      {
+         action_on_char('+');
+      }
+
+      else if(target==bdivide)
+      {
+         action_on_char('/');
+      }
+
+      else if(target==bpow)
+      {
+         action_on_char('^');
+      }
+
 //      else if(target==bdivide)
 //      {
 //         buf=Double.parseDouble(t1.getText());
@@ -143,11 +168,7 @@ public class Kalk implements ActionListener
          }
       }
 
-      else if(target == bpow) {
-         buf = Double.parseDouble(t1.getText());
-         clear_screen();
-         powBool = true;
-      }
+
       else if(target == bproc) {
          x = Double.parseDouble(t1.getText());
          set_number((buf / 100) * x);
