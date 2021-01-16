@@ -1,49 +1,132 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
- 
+
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 public class Kalk implements ActionListener
 {
    JTextField t1;
    JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b0;
    JButton bdot, bcl, bmemory;
    JButton bplus, bminus, bmultiply, bdivide, brow, bsqrt, bpow, bproc;
+
+   Boolean addBool = false;
+   Boolean minBool = false;
+   Boolean divBool = false;
+   Boolean mulBool = false;
+   Boolean powBool = false;
     
-   double x,buf;
+   double x, buf;
  
    public void actionPerformed(ActionEvent e)                  
    {                                                           
       Object target = e.getSource();                           
  
-      if(target==b1)                                           
+      if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
+              || target==b6 || target==b7 || target==b8 || target==b9 || target==b0 || target==bdot)
       {                                                        
          t1.setText(t1.getText()+((JButton)target).getText()); 
-         t1.requestFocus();                                    
-      }                                                        
- 
+         t1.requestFocus();
+      }
+
       else if(target==bplus)                                   
       {                                                        
          buf=Double.parseDouble(t1.getText());                 
-         t1.setText("");                                       
-         t1.requestFocus();                                    
-      }                                                        
+         t1.setText("");
+         t1.requestFocus();
+         addBool = true;
+      }
+
+      else if(target==bminus)
+      {
+         buf=Double.parseDouble(t1.getText());
+         t1.setText("");
+         t1.requestFocus();
+         minBool = true;
+      }
+
+      else if(target==bmultiply)
+      {
+         buf=Double.parseDouble(t1.getText());
+         t1.setText("");
+         t1.requestFocus();
+         mulBool = true;
+      }
+
+      else if(target==bdivide)
+      {
+         buf=Double.parseDouble(t1.getText());
+         t1.setText("");
+         t1.requestFocus();
+         divBool = true;
+      }
+
+      else if(target == bsqrt) {
+         buf = Double.parseDouble(t1.getText());
+         t1.setText(Double.toString(sqrt(buf)));
+         t1.requestFocus();
+      }
+
+      else if(target == bpow) {
+         buf = Double.parseDouble(t1.getText());
+         t1.setText("");
+         t1.requestFocus();
+         powBool = true;
+      }
+      else if(target == bproc) {
+         x = Double.parseDouble(t1.getText());
+         t1.setText(Double.toString((buf / 100) * x));
+         t1.requestFocus();
+      }
  
-      else if(target==brow||target==t1)                        
-      {                                                        
-         x=Double.parseDouble(t1.getText());                   
-         x=buf+x;                                              
-         t1.setText(Double.toString(x));                       
-         t1.requestFocus();                                    
-      }                                                        
+      else if(target==brow||target==t1) {
+         x = Double.parseDouble(t1.getText());
+         if (addBool) {
+            x = buf + x;
+         }
+         else if (minBool) {
+            x = buf - x;
+         }
+         else if (mulBool) {
+            x = buf * x;
+         }
+         else if (divBool) {
+            x = buf / x;
+         }
+         else if (powBool) {
+            x = pow(buf, x);
+         }
+         t1.setText(Double.toString(x));
+         t1.requestFocus();
+
+         addBool = false;
+         minBool = false;
+         divBool = false;
+         mulBool = false;
+         powBool = false;
+      }
+
+      else if(target == bcl)
+      {
+         x = 0;
+         buf = 0;
+         t1.setText("");
+         t1.requestFocus();
+      }
+
    }                                                           
  
    void init()                                                                   
    {                                                                            
-      //try                                                                     
-      //{                                                                       
-      //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());    
-      //}                                                                       
-      //catch(Exception e){}                                                    
+      try
+      {
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+      }
+      catch(Exception e){
+         System.err.println(e.getMessage());
+      }
  
       JFrame f=new JFrame();                                                    
       Container c=f.getContentPane();                                           
