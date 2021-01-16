@@ -117,7 +117,7 @@ public class Kalk implements ActionListener
             bmemory.setForeground(Color.BLACK);
          }
       }
-      else if(input == '='){
+      else if(input == '=' || input == '\n'){
          x = Double.parseDouble(t1.getText());
          if (addBool) {
             x = buf + x;
