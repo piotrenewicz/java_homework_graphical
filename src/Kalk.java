@@ -18,7 +18,8 @@ public class Kalk implements ActionListener
    Boolean powBool = false;
    Boolean dot_on_screen = false;
     
-   double x, buf;
+   double x, buf, mem;
+   boolean mem_flag = false;
 
    void set_number(double number){
       String to_set = Double.toString(number);
@@ -136,6 +137,19 @@ public class Kalk implements ActionListener
          x = 0;
          buf = 0;
          clear_screen();
+      }
+      else if(target == bmemory){
+         if(mem_flag == false){
+            mem_flag = true;
+            mem= Double.parseDouble(t1.getText());
+            clear_screen();
+            bmemory.setForeground(Color.GREEN);
+         }else{
+            clear_screen();
+            set_number(mem);
+            mem_flag = false;
+            bmemory.setForeground(Color.BLACK);
+         }
       }
 
    }                                                           
