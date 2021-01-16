@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.io.*;
 
 import static java.lang.Math.*;
 
@@ -45,6 +46,26 @@ public class Kalk implements ActionListener
       t1.setText("");
       t1.requestFocus();
       x = 0;
+   }
+
+   void save_to_history(String op, String a, String b, String wynik){
+      try{
+         FileWriter history = new FileWriter("history", true);
+         history.write(a+op+b+"="+wynik+"\n");
+         history.close();
+      }catch(IOException e){
+         return;
+      }
+   }
+
+   void save_to_history_1(String op, String a, String wynik){
+      try{
+         FileWriter history = new FileWriter("history", true);
+         history.write(op+a+"="+wynik+"\n");
+         history.close();
+      }catch(IOException e){
+         return;
+      }
    }
 
    void screen_append(String text){
@@ -96,11 +117,13 @@ public class Kalk implements ActionListener
          if(buf < 0){
             t1.setText("Błąd pierwiastkowania!");
          }else{
+            save_to_history_1("\u221A", Double.toString(buf), Double.toString(sqrt(buf)));
             set_number(sqrt(buf));
          }
       }
       else if(input == '%') {
          x = Double.parseDouble(t1.getText());
+         save_to_history_1("%", Double.toString(buf), Double.toString((buf / 100) * x));
          set_number((buf / 100) * x);
       }
       else if(input == 'c') {
@@ -125,22 +148,27 @@ public class Kalk implements ActionListener
          x = 0;
          x = Double.parseDouble(t1.getText());
          if (op == opcode.add) {
+            save_to_history("+", Double.toString(buf), Double.toString(x), Double.toString(buf+x));
             x = buf + x;
          }
          else if (op == opcode.sub) {
+            save_to_history("-", Double.toString(buf), Double.toString(x), Double.toString(buf-x));
             x = buf - x;
          }
          else if (op == opcode.mul) {
+            save_to_history("*", Double.toString(buf), Double.toString(x), Double.toString(buf*x));
             x = buf * x;
          }
          else if (op == opcode.div) {
             if(x == 0){
                t1.setText("Błąd dzielenia przez 0!"); return;
             }else{
+               save_to_history("/", Double.toString(buf), Double.toString(x), Double.toString(buf/x));
                x = buf / x;
             }
          }
          else if (op == opcode.pow) {
+            save_to_history("^", Double.toString(buf), Double.toString(x), Double.toString(pow(buf, x)));
             x = pow(buf, x);
          }
          set_number(x);
