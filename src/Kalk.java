@@ -112,7 +112,11 @@ public class Kalk implements ActionListener
             x = buf * x;
          }
          else if (divBool) {
-            x = buf / x;
+            if(x == 0){
+               t1.setText("Błąd dzielenia przez 0!"); return;
+            }else{
+               x = buf / x;
+            }
          }
          else if (powBool) {
             x = pow(buf, x);
