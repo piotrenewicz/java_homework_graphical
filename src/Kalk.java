@@ -11,7 +11,11 @@ public class Kalk implements ActionListener
    JButton bdot, bcl, bmemory;
    JButton bplus, bminus, bmultiply, bdivide, brow, bsqrt, bpow, bproc;
 
-   Boolean addBool = false;
+   enum opcode{
+      NaN, add, sub, div, mul, pow
+   }
+   opcode op;
+//   Boolean addBool = false;
    Boolean minBool = false;
    Boolean divBool = false;
    Boolean mulBool = false;
@@ -65,7 +69,7 @@ public class Kalk implements ActionListener
       else if(input == '+'){
          buf=Double.parseDouble(t1.getText());
          clear_screen();
-         addBool = true;
+         op = opcode.add;
       }
       else if(input == '-'){
          buf=Double.parseDouble(t1.getText());
@@ -88,8 +92,9 @@ public class Kalk implements ActionListener
          powBool = true;
       }
       else if(input == '='){
+         x = 0;
          x = Double.parseDouble(t1.getText());
-         if (addBool) {
+         if (op == opcode.add) {
             x = buf + x;
          }
          else if (minBool) {
@@ -109,13 +114,14 @@ public class Kalk implements ActionListener
             x = pow(buf, x);
          }
          set_number(x);
-
-         addBool = false;
+         op = opcode.NaN; // resetowanie operacji. 
+         // Jeśli chcemy powtarzać ostatnią operacje za pomocą =, możemy tą linie wywalić.
          minBool = false;
          divBool = false;
          mulBool = false;
          powBool = false;
       }
+
 
    }
 
@@ -157,21 +163,6 @@ public class Kalk implements ActionListener
          action_on_char('*');
       }
 
-      else if(target==bminus)
-      {
-         action_on_char('-');
-      }
-
-      else if(target==bplus)
-      {
-         action_on_char('+');
-      }
-
-      else if(target==bdivide)
-      {
-         action_on_char('/');
-      }
-
       else if(target==bpow)
       {
          action_on_char('^');
@@ -192,7 +183,6 @@ public class Kalk implements ActionListener
             set_number(sqrt(buf));
          }
       }
-
 
       else if(target == bproc) {
          x = Double.parseDouble(t1.getText());
@@ -236,7 +226,7 @@ public class Kalk implements ActionListener
          clear_screen();
       }
       else if(target == bmemory){
-         if(mem_flag == false){
+         if(!mem_flag){
             mem_flag = true;
             mem= Double.parseDouble(t1.getText());
             clear_screen();
@@ -259,6 +249,7 @@ public class Kalk implements ActionListener
    {
       x = 0;
       buf = 0;
+      mem =0;
 
       try
       {
@@ -553,12 +544,6 @@ public class Kalk implements ActionListener
       //new Kalk().init();                         
  
       //od wersji 1.5                              
-         SwingUtilities.invokeLater(new Runnable() 
-      {                                            
-         public void run()                         
-         {                                         
-            new Kalk().init();                     
-         }                                         
-      });                                          
+         SwingUtilities.invokeLater(() -> new Kalk().init());
    }                                               
 }
