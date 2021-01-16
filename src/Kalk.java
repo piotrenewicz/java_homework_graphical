@@ -38,6 +38,7 @@ public class Kalk implements ActionListener
       t1.setText("");
       t1.requestFocus();
    }
+
  
    public void actionPerformed(ActionEvent e)                  
    {                                                           
@@ -150,8 +151,8 @@ public class Kalk implements ActionListener
       }
  
       JFrame f=new JFrame();                                                    
-      Container c=f.getContentPane();                                           
- 
+      Container c=f.getContentPane();
+      f.setResizable(false);
       GridBagLayout gbl=new GridBagLayout();                                    
       GridBagConstraints gbc=new GridBagConstraints();                          
       gbc.fill=GridBagConstraints.HORIZONTAL;                                   
@@ -161,7 +162,8 @@ public class Kalk implements ActionListener
  
       t1=new JTextField(15);                                                    
       t1.addActionListener(this);                                               
-      t1.setHorizontalAlignment(JTextField.RIGHT);                              
+      t1.setHorizontalAlignment(JTextField.RIGHT);
+      t1.setEditable(false);
       gbc.gridx=0;                                                              
       gbc.gridy=0;                                                              
       gbc.gridwidth=4;                                                          
