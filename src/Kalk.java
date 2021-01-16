@@ -95,16 +95,20 @@ public class Kalk implements ActionListener
       Object target = e.getSource();
 
 //      if(target == bdot){
-//         dot_process();
+//         if(dot_on_screen){
+//            return;
+//         }
+//         dot_on_screen = true;
 //      }
 //
 //      if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
-//              || target==b6 || target==b7 || target==b8 || target==b9 || target==b0)
+//              || target==b6 || target==b7 || target==b8 || target==b9 || target==b0 || target==bdot)
 //      {
-//         screen_append(((JButton)target).getText());
+//         t1.setText(t1.getText()+((JButton)target).getText());
+//         t1.requestFocus();
 //      }
-
-//      if(target==bplus)
+//
+//      else if(target==bplus)
 //      {
 //         buf=Double.parseDouble(t1.getText());
 //         clear_screen();
@@ -132,7 +136,11 @@ public class Kalk implements ActionListener
 
       else if(target == bsqrt) {
          buf = Double.parseDouble(t1.getText());
-         set_number(sqrt(buf));
+         if(buf < 0){
+            t1.setText("Błąd pierwiastkowania!");
+         }else{
+            set_number(sqrt(buf));
+         }
       }
 
       else if(target == bpow) {
@@ -199,7 +207,7 @@ public class Kalk implements ActionListener
          action_on_char(((JButton)target).getText().charAt(0));
       }
 
-   }                                                           
+   }
  
    void init()                                                                   
    {
