@@ -2,8 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 public class Kalk implements ActionListener
 {
@@ -17,13 +16,40 @@ public class Kalk implements ActionListener
    Boolean divBool = false;
    Boolean mulBool = false;
    Boolean powBool = false;
+   Boolean dot_on_screen = false;
     
    double x, buf;
+
+   void set_number(double number){
+      String to_set = Double.toString(number);
+      if(number - Math.floor(number) == 0){
+         dot_on_screen = false;
+         to_set = Integer.toString((int) number);
+      }else{
+         dot_on_screen = true;
+      }
+      t1.setText(to_set);
+      t1.requestFocus();
+
+   }
+
+   void clear_screen(){
+      dot_on_screen = false;
+      t1.setText("");
+      t1.requestFocus();
+   }
  
-   public void actionPerformed(ActionEvent e)
-   {
-      Object target = e.getSource();                           
- 
+   public void actionPerformed(ActionEvent e)                  
+   {                                                           
+      Object target = e.getSource();
+
+      if(target == bdot){
+         if(dot_on_screen){
+            return;
+         }
+         dot_on_screen = true;
+      }
+
       if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
               || target==b6 || target==b7 || target==b8 || target==b9 || target==b0 || target==bdot)
       {                                                        
@@ -34,51 +60,44 @@ public class Kalk implements ActionListener
       else if(target==bplus)                                   
       {                                                        
          buf=Double.parseDouble(t1.getText());                 
-         t1.setText("");
-         t1.requestFocus();
+         clear_screen();
          addBool = true;
       }
 
       else if(target==bminus)
       {
          buf=Double.parseDouble(t1.getText());
-         t1.setText("");
-         t1.requestFocus();
+         clear_screen();
          minBool = true;
       }
 
       else if(target==bmultiply)
       {
          buf=Double.parseDouble(t1.getText());
-         t1.setText("");
-         t1.requestFocus();
+         clear_screen();
          mulBool = true;
       }
 
       else if(target==bdivide)
       {
          buf=Double.parseDouble(t1.getText());
-         t1.setText("");
-         t1.requestFocus();
+         clear_screen();
          divBool = true;
       }
 
       else if(target == bsqrt) {
          buf = Double.parseDouble(t1.getText());
-         t1.setText(Double.toString(sqrt(buf)));
-         t1.requestFocus();
+         set_number(sqrt(buf));
       }
 
       else if(target == bpow) {
          buf = Double.parseDouble(t1.getText());
-         t1.setText("");
-         t1.requestFocus();
+         clear_screen();
          powBool = true;
       }
       else if(target == bproc) {
          x = Double.parseDouble(t1.getText());
-         t1.setText(Double.toString((buf / 100) * x));
-         t1.requestFocus();
+         set_number((buf / 100) * x);
       }
  
       else if(target==brow||target==t1) {
@@ -98,8 +117,7 @@ public class Kalk implements ActionListener
          else if (powBool) {
             x = pow(buf, x);
          }
-         t1.setText(Double.toString(x));
-         t1.requestFocus();
+         set_number(x);
 
          addBool = false;
          minBool = false;
@@ -112,8 +130,7 @@ public class Kalk implements ActionListener
       {
          x = 0;
          buf = 0;
-         t1.setText("");
-         t1.requestFocus();
+         clear_screen();
       }
 
    }                                                           
@@ -129,19 +146,17 @@ public class Kalk implements ActionListener
       }
  
       JFrame f=new JFrame();                                                    
-      Container c=f.getContentPane();
-      f.setResizable(false);
+      Container c=f.getContentPane();                                           
+ 
       GridBagLayout gbl=new GridBagLayout();                                    
       GridBagConstraints gbc=new GridBagConstraints();                          
       gbc.fill=GridBagConstraints.HORIZONTAL;                                   
-      c.setLayout(gbl);
-
-
-
-      t1=new JFormattedTextField();
-      t1.setColumns(15);
-      t1.setEditable(false); //edytowanie pola tekstowego z klawiatury
-      t1.addActionListener(this);
+      c.setLayout(gbl);                                                         
+ 
+ 
+ 
+      t1=new JTextField(15);                                                    
+      t1.addActionListener(this);                                               
       t1.setHorizontalAlignment(JTextField.RIGHT);                              
       gbc.gridx=0;                                                              
       gbc.gridy=0;                                                              
@@ -397,7 +412,7 @@ public class Kalk implements ActionListener
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                         
       f.setTitle("Kalk");                                                       
       f.setVisible(true);                                                       
-   }
+   }                                                                            
  
    public static void main(String[] args)          
    {                                               
