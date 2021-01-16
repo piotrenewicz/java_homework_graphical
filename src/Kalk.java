@@ -20,8 +20,8 @@ public class Kalk implements ActionListener
     
    double x, buf;
  
-   public void actionPerformed(ActionEvent e)                  
-   {                                                           
+   public void actionPerformed(ActionEvent e)
+   {
       Object target = e.getSource();                           
  
       if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
@@ -129,17 +129,19 @@ public class Kalk implements ActionListener
       }
  
       JFrame f=new JFrame();                                                    
-      Container c=f.getContentPane();                                           
- 
+      Container c=f.getContentPane();
+      f.setResizable(false);
       GridBagLayout gbl=new GridBagLayout();                                    
       GridBagConstraints gbc=new GridBagConstraints();                          
       gbc.fill=GridBagConstraints.HORIZONTAL;                                   
-      c.setLayout(gbl);                                                         
- 
- 
- 
-      t1=new JTextField(15);                                                    
-      t1.addActionListener(this);                                               
+      c.setLayout(gbl);
+
+
+
+      t1=new JFormattedTextField();
+      t1.setColumns(15);
+      t1.setEditable(false); //edytowanie pola tekstowego z klawiatury
+      t1.addActionListener(this);
       t1.setHorizontalAlignment(JTextField.RIGHT);                              
       gbc.gridx=0;                                                              
       gbc.gridy=0;                                                              
@@ -395,7 +397,7 @@ public class Kalk implements ActionListener
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                         
       f.setTitle("Kalk");                                                       
       f.setVisible(true);                                                       
-   }                                                                            
+   }
  
    public static void main(String[] args)          
    {                                               
