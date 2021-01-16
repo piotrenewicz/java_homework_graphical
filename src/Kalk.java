@@ -91,6 +91,36 @@ public class Kalk implements ActionListener
          clear_screen();
          powBool = true;
       }
+      else if(input == 'r'){
+         buf = Double.parseDouble(t1.getText());
+         if(buf < 0){
+            t1.setText("Błąd pierwiastkowania!");
+         }else{
+            set_number(sqrt(buf));
+         }
+      }
+      else if(input == '%') {
+         x = Double.parseDouble(t1.getText());
+         set_number((buf / 100) * x);
+      }
+      else if(input == 'c') {
+         x = 0;
+         buf = 0;
+         clear_screen();
+      }
+      else if(input == 'm'){
+         if(mem_flag == false){
+            mem_flag = true;
+            mem= Double.parseDouble(t1.getText());
+            clear_screen();
+            bmemory.setForeground(Color.GREEN);
+         }else{
+            clear_screen();
+            set_number(mem);
+            mem_flag = false;
+            bmemory.setForeground(Color.BLACK);
+         }
+      }
       else if(input == '='){
          x = 0;
          x = Double.parseDouble(t1.getText());
@@ -114,14 +144,13 @@ public class Kalk implements ActionListener
             x = pow(buf, x);
          }
          set_number(x);
-         op = opcode.NaN; // resetowanie operacji. 
+         op = opcode.NaN; // resetowanie operacji.
          // Jeśli chcemy powtarzać ostatnią operacje za pomocą =, możemy tą linie wywalić.
          minBool = false;
          divBool = false;
          mulBool = false;
          powBool = false;
       }
-
 
    }
 
@@ -176,17 +205,12 @@ public class Kalk implements ActionListener
 //      }
 
       else if(target == bsqrt) {
-         buf = Double.parseDouble(t1.getText());
-         if(buf < 0){
-            t1.setText("Błąd pierwiastkowania!");
-         }else{
-            set_number(sqrt(buf));
-         }
+         action_on_char('r');
       }
 
+
       else if(target == bproc) {
-         x = Double.parseDouble(t1.getText());
-         set_number((buf / 100) * x);
+         action_on_char('%');
       }
  
 //      else if(target==brow||target==t1) {
@@ -221,22 +245,10 @@ public class Kalk implements ActionListener
 
       else if(target == bcl)
       {
-         x = 0;
-         buf = 0;
-         clear_screen();
+         action_on_char('c');
       }
       else if(target == bmemory){
-         if(!mem_flag){
-            mem_flag = true;
-            mem= Double.parseDouble(t1.getText());
-            clear_screen();
-            bmemory.setForeground(Color.GREEN);
-         }else{
-            clear_screen();
-            set_number(mem);
-            mem_flag = false;
-            bmemory.setForeground(Color.BLACK);
-         }
+         action_on_char('m');
       }
 
       else {
