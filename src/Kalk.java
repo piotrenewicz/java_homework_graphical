@@ -21,16 +21,18 @@ public class Kalk implements ActionListener
    double x, buf, mem;
    boolean mem_flag = false;
 
+   void check_dot(){
+      dot_on_screen = t1.getText().contains(".");
+   }
+
    void set_number(double number){
       String to_set = Double.toString(number);
-      if(number - Math.floor(number) == 0){
-         dot_on_screen = false;
+      if(number - Math.floor(number) == 0) {
          to_set = Integer.toString((int) number);
-      }else{
-         dot_on_screen = true;
       }
       t1.setText(to_set);
       t1.requestFocus();
+      check_dot();
 
    }
 
@@ -38,54 +40,95 @@ public class Kalk implements ActionListener
       dot_on_screen = false;
       t1.setText("");
       t1.requestFocus();
+      x = 0;
    }
 
- 
-   public void actionPerformed(ActionEvent e)                  
-   {                                                           
-      Object target = e.getSource();
+   void screen_append(String text){
+      t1.setText(t1.getText()+text);
+      t1.requestFocus();
+   }
 
-      if(target == bdot){
+   public void action_on_char(char input){
+      System.out.println(input);
+      if(Character.isDigit(input)){
+         screen_append(input+"");
+         x = x*10 + (int) input;
+      }
+      else if(input == '.') {
+         check_dot();
          if(dot_on_screen){
             return;
          }
          dot_on_screen = true;
+         screen_append(".");
       }
-
-      if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
-              || target==b6 || target==b7 || target==b8 || target==b9 || target==b0 || target==bdot)
-      {                                                        
-         t1.setText(t1.getText()+((JButton)target).getText()); 
-         t1.requestFocus();
-      }
-
-      else if(target==bplus)                                   
-      {                                                        
-         buf=Double.parseDouble(t1.getText());                 
+      else if(input == '+'){
+         buf=Double.parseDouble(t1.getText());
          clear_screen();
          addBool = true;
       }
-
-      else if(target==bminus)
-      {
+      else if(input == '-'){
          buf=Double.parseDouble(t1.getText());
          clear_screen();
          minBool = true;
       }
-
-      else if(target==bmultiply)
-      {
+      else if(input == '*'){
          buf=Double.parseDouble(t1.getText());
          clear_screen();
          mulBool = true;
       }
-
-      else if(target==bdivide)
-      {
+      else if(input == '/'){
          buf=Double.parseDouble(t1.getText());
          clear_screen();
          divBool = true;
       }
+      else if(input == '='){
+
+      }
+
+
+   }
+
+
+   public void actionPerformed(ActionEvent e)                  
+   {                                                           
+      Object target = e.getSource();
+
+//      if(target == bdot){
+//         dot_process();
+//      }
+//
+//      if(target==b1 || target==b2 || target==b3 || target==b4 || target==b5
+//              || target==b6 || target==b7 || target==b8 || target==b9 || target==b0)
+//      {
+//         screen_append(((JButton)target).getText());
+//      }
+
+//      if(target==bplus)
+//      {
+//         buf=Double.parseDouble(t1.getText());
+//         clear_screen();
+//         addBool = true;
+//      }
+//
+//      else if(target==bminus)
+//      {
+//         buf=Double.parseDouble(t1.getText());
+//         clear_screen();
+//         minBool = true;
+//      }
+
+      if(target==bmultiply)
+      {
+         action_on_char('*');
+      }
+
+//      else if(target==bdivide)
+//      {
+//         buf=Double.parseDouble(t1.getText());
+//         clear_screen();
+//         divBool = true;
+//      }
 
       else if(target == bsqrt) {
          buf = Double.parseDouble(t1.getText());
@@ -152,10 +195,17 @@ public class Kalk implements ActionListener
          }
       }
 
+      else {
+         action_on_char(((JButton)target).getText().charAt(0));
+      }
+
    }                                                           
  
    void init()                                                                   
-   {                                                                            
+   {
+      x = 0;
+      buf = 0;
+
       try
       {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -185,10 +235,19 @@ public class Kalk implements ActionListener
       gbc.ipady=5;                                                              
       gbc.insets=new Insets(5,5,0,5);                                           
       gbl.setConstraints(t1,gbc);                                               
-      c.add(t1);                                                                
- 
- 
-        //====================cyfry========================
+      c.add(t1);
+
+      t1.addKeyListener(new KeyAdapter() {
+         @Override
+         public void keyPressed(KeyEvent e) {
+            action_on_char(e.getKeyChar());
+         }
+      }
+      );
+
+
+
+      //====================cyfry========================
       b1=new JButton("1");                                                      
       b1.addActionListener(this);                                               
       b1.setFocusable(false);                                                   
