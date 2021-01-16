@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.*;
+import java.util.Scanner;
 
 import static java.lang.Math.*;
 
@@ -11,6 +12,7 @@ public class Kalk implements ActionListener
    JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b0;
    JButton bdot, bcl, bmemory;
    JButton bplus, bminus, bmultiply, bdivide, brow, bsqrt, bpow, bproc;
+   int history_num = 1;
 
    enum opcode{
       NaN, add, sub, div, mul, pow
@@ -65,6 +67,27 @@ public class Kalk implements ActionListener
          history.close();
       }catch(IOException e){
          return;
+      }
+   }
+
+   String open_history(){
+      try{
+         BufferedReader history = new BufferedReader(new FileReader("history"));
+         StringBuilder str_builder = new StringBuilder();
+         String line = null;
+         
+         while((line = history.readLine()) != null){
+            str_builder.append(line + "\n");
+            history_num = history_num + 1;
+         }
+         System.out.println(Integer.toString(history_num));
+         history.close();
+
+         String result = str_builder.toString();
+
+         return result;
+      }catch(IOException e){
+         return "!";
       }
    }
 
@@ -143,6 +166,17 @@ public class Kalk implements ActionListener
             mem_flag = false;
             bmemory.setForeground(Color.BLACK);
          }
+      }
+      else if(input == 'w'){
+         history_num = history_num - 1;
+         String historia = open_history();
+         String linia = historia.split("\n")[4];         
+         clear_screen();
+         t1.setText(linia);
+      }
+      else if(input == 's'){
+         clear_screen();
+         t1.setText("???");
       }
       else if(input == '='){
          x = 0;
@@ -256,8 +290,6 @@ public class Kalk implements ActionListener
          }
       }
       );
-
-
 
       //====================cyfry========================
       b1=new JButton("1");                                                      
