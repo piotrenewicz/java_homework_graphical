@@ -31,7 +31,6 @@ public class Kalk implements ActionListener
       }
       t1.setText(to_set);
       t1.requestFocus();
-
    }
 
    void clear_screen(){
@@ -40,6 +39,7 @@ public class Kalk implements ActionListener
       t1.requestFocus();
    }
 
+   
  
    public void actionPerformed(ActionEvent e)                  
    {                                                           
@@ -89,7 +89,11 @@ public class Kalk implements ActionListener
 
       else if(target == bsqrt) {
          buf = Double.parseDouble(t1.getText());
-         set_number(sqrt(buf));
+         if(buf < 0){
+            t1.setText("Błąd pierwiastkowania!");
+         }else{
+            set_number(sqrt(buf));
+         }
       }
 
       else if(target == bpow) {
