@@ -88,9 +88,34 @@ public class Kalk implements ActionListener
          powBool = true;
       }
       else if(input == '='){
+         x = Double.parseDouble(t1.getText());
+         if (addBool) {
+            x = buf + x;
+         }
+         else if (minBool) {
+            x = buf - x;
+         }
+         else if (mulBool) {
+            x = buf * x;
+         }
+         else if (divBool) {
+            if(x == 0){
+               t1.setText("Błąd dzielenia przez 0!"); return;
+            }else{
+               x = buf / x;
+            }
+         }
+         else if (powBool) {
+            x = pow(buf, x);
+         }
+         set_number(x);
 
+         addBool = false;
+         minBool = false;
+         divBool = false;
+         mulBool = false;
+         powBool = false;
       }
-
 
    }
 
@@ -174,35 +199,35 @@ public class Kalk implements ActionListener
          set_number((buf / 100) * x);
       }
  
-      else if(target==brow||target==t1) {
-         x = Double.parseDouble(t1.getText());
-         if (addBool) {
-            x = buf + x;
-         }
-         else if (minBool) {
-            x = buf - x;
-         }
-         else if (mulBool) {
-            x = buf * x;
-         }
-         else if (divBool) {
-            if(x == 0){
-               t1.setText("Błąd dzielenia przez 0!"); return;
-            }else{
-               x = buf / x;
-            }
-         }
-         else if (powBool) {
-            x = pow(buf, x);
-         }
-         set_number(x);
-
-         addBool = false;
-         minBool = false;
-         divBool = false;
-         mulBool = false;
-         powBool = false;
-      }
+//      else if(target==brow||target==t1) {
+//         x = Double.parseDouble(t1.getText());
+//         if (addBool) {
+//            x = buf + x;
+//         }
+//         else if (minBool) {
+//            x = buf - x;
+//         }
+//         else if (mulBool) {
+//            x = buf * x;
+//         }
+//         else if (divBool) {
+//            if(x == 0){
+//               t1.setText("Błąd dzielenia przez 0!"); return;
+//            }else{
+//               x = buf / x;
+//            }
+//         }
+//         else if (powBool) {
+//            x = pow(buf, x);
+//         }
+//         set_number(x);
+//
+//         addBool = false;
+//         minBool = false;
+//         divBool = false;
+//         mulBool = false;
+//         powBool = false;
+//      }
 
       else if(target == bcl)
       {
