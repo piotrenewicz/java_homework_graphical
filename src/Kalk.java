@@ -139,6 +139,10 @@ public class Kalk implements ActionListener
          clear_screen();
       }
       else if(input == '-'){
+         if(t1.getText().length() == 0){
+            screen_append("-");
+            return;
+         }
          op = opcode.sub;
          buf=Double.parseDouble(t1.getText());
          clear_screen();
