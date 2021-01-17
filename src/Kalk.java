@@ -12,8 +12,11 @@ public class Kalk implements ActionListener
    JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b0;
    JButton bdot, bcl, bmemory;
    JButton bplus, bminus, bmultiply, bdivide, brow, bsqrt, bpow, bproc;
-   int history_num = 1;
-   private int maks_history;
+   private int maks_history=0;
+   String historia = open_history();
+   int history_num = maks_history-1;
+   boolean piping_history = false;
+
 
    enum opcode{
       NaN, add, sub, div, mul, pow
@@ -29,7 +32,7 @@ public class Kalk implements ActionListener
    double x, buf, mem;
    boolean mem_flag = false;
 
-   String historia = open_history();
+
 
    void check_dot(){
       dot_on_screen = t1.getText().contains(".");
@@ -53,21 +56,38 @@ public class Kalk implements ActionListener
       x = 0;
    }
 
+   void pipe_history_back_to_parser(String line){
+      int len = line.length();
+      piping_history = true;
+      for (int i =0; i<len; i++){
+         try {
+            action_on_char(line.charAt(i));
+         } catch (Exception e) {
+            continue;
+         }
+      }
+      piping_history = false;
+   }
+
    void save_to_history(String op, String a, String b, String wynik){
+      if(piping_history) return;
       try{
          FileWriter history = new FileWriter("history", true);
-         history.write(a+op+b+"="+wynik+"\n");
+         history.write("c"+a+op+b+"="+"\n");
          history.close();
+         history_num ++;
       }catch(IOException e){
          return;
       }
    }
 
    void save_to_history_1(String op, String a, String wynik){
+      if(piping_history) return;
       try{
          FileWriter history = new FileWriter("history", true);
-         history.write(op+a+"="+wynik+"\n");
+         history.write("c"+op+a+"="+"\n");
          history.close();
+         history_num++;
       }catch(IOException e){
          return;
       }
@@ -78,13 +98,11 @@ public class Kalk implements ActionListener
          BufferedReader history = new BufferedReader(new FileReader("history"));
          StringBuilder str_builder = new StringBuilder();
          String line = null;
-         
+         maks_history = 0;
          while((line = history.readLine()) != null){
             str_builder.append(line + "\n");
-            history_num = history_num + 1;
+            maks_history++;
          }
-         history_num = history_num - 1;
-         maks_history = history_num;
          System.out.println(history_num);
          history.close();
 
@@ -140,7 +158,7 @@ public class Kalk implements ActionListener
          buf=Double.parseDouble(t1.getText());
          clear_screen();
       }
-      else if(input == 'r'){
+      else if(input == 'r' || input == '\u221A'){
          buf = Double.parseDouble(t1.getText());
          if(buf < 0){
             t1.setText("Błąd pierwiastkowania!");
@@ -174,28 +192,20 @@ public class Kalk implements ActionListener
       }
 
       else if(input == 'w'){
-         System.out.println(history_num);
-         System.out.println(maks_history);
-         if (history_num >= 1 && history_num <= maks_history) {
-            history_num = history_num - 1;
-            String linia = historia.split("\n")[history_num];
-            clear_screen();
-            t1.setText(linia);
+         historia = open_history();
+         history_num--;
+         if(history_num == -1){
+            history_num = maks_history-1;
          }
-         else {
-            history_num = maks_history;
-         }
+         pipe_history_back_to_parser(historia.split("\n")[history_num]);
       }
       else if(input == 's'){
-         System.out.println(history_num);
-         System.out.println(maks_history);
-         if (history_num > 0 && history_num < maks_history) {
-            history_num = history_num + 1;
-            System.out.println(history_num);
-            String linia = historia.split("\n")[history_num];
-            clear_screen();
-            t1.setText(linia);
+         historia = open_history();
+         history_num++;
+         if(history_num == maks_history){
+            history_num = 0;
          }
+         pipe_history_back_to_parser(historia.split("\n")[history_num]);
       }
 
       else if(input == '='){
