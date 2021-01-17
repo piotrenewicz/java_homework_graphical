@@ -13,6 +13,7 @@ public class Kalk implements ActionListener
    JButton bdot, bcl, bmemory;
    JButton bplus, bminus, bmultiply, bdivide, brow, bsqrt, bpow, bproc;
    int history_num = 1;
+   private int maks_history;
 
    enum opcode{
       NaN, add, sub, div, mul, pow
@@ -27,6 +28,8 @@ public class Kalk implements ActionListener
     
    double x, buf, mem;
    boolean mem_flag = false;
+
+   String historia = open_history();
 
    void check_dot(){
       dot_on_screen = t1.getText().contains(".");
@@ -80,7 +83,9 @@ public class Kalk implements ActionListener
             str_builder.append(line + "\n");
             history_num = history_num + 1;
          }
-         System.out.println(Integer.toString(history_num));
+         history_num = history_num - 1;
+         maks_history = history_num;
+         System.out.println(history_num);
          history.close();
 
          String result = str_builder.toString();
@@ -167,17 +172,32 @@ public class Kalk implements ActionListener
             bmemory.setForeground(Color.BLACK);
          }
       }
+
       else if(input == 'w'){
-         history_num = history_num - 1;
-         String historia = open_history();
-         String linia = historia.split("\n")[4];         
-         clear_screen();
-         t1.setText(linia);
+         System.out.println(history_num);
+         System.out.println(maks_history);
+         if (history_num >= 1 && history_num <= maks_history) {
+            history_num = history_num - 1;
+            String linia = historia.split("\n")[history_num];
+            clear_screen();
+            t1.setText(linia);
+         }
+         else {
+            history_num = maks_history;
+         }
       }
       else if(input == 's'){
-         clear_screen();
-         t1.setText("???");
+         System.out.println(history_num);
+         System.out.println(maks_history);
+         if (history_num > 0 && history_num < maks_history) {
+            history_num = history_num + 1;
+            System.out.println(history_num);
+            String linia = historia.split("\n")[history_num];
+            clear_screen();
+            t1.setText(linia);
+         }
       }
+
       else if(input == '='){
          x = 0;
          x = Double.parseDouble(t1.getText());
