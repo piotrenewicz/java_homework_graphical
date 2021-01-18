@@ -28,6 +28,14 @@ class Kulka extends Ellipse2D.Float
         this.hit = new Rectangle2D.Float(x, y, 10, 10);
     }
 
+    void gameOver(){
+        if (this.lives < 0){
+            JFrame game_over = new JFrame();
+            JOptionPane.showMessageDialog(game_over, "Przegrałeś!");
+            System.exit(0);
+        }
+    }
+
     void nextKrok()
     {
         hit.x = x += dx;
@@ -40,7 +48,7 @@ class Kulka extends Ellipse2D.Float
         }else if(getMaxY()>p.getHeight()){
             dy=-dy; lives--; System.out.println(lives);
         }
-
+        gameOver();
         if(hit.intersects(this.p.b)) {
                 dy=- Math.abs(dy);
         }
