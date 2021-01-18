@@ -10,6 +10,7 @@ class Kulka extends Ellipse2D.Float
 {
     Plansza p;
     int dx,dy;
+    Rectangle2D.Float hit;
 
     Kulka(Plansza p,int x,int y,int dx,int dy)
     {
@@ -21,15 +22,41 @@ class Kulka extends Ellipse2D.Float
         this.p=p;
         this.dx=dx;
         this.dy=dy;
+
+        this.hit = new Rectangle2D.Float(x, y, 10, 10);
     }
 
-    void nextKrok()
+    void nextKrok(Belka b)
     {
-        x+=dx;
-        y+=dy;
+        hit.x = x += dx;
+        hit.y = y += dy;
 
         if(getMinX()<0 || getMaxX()>p.getWidth())  dx=-dx;
         if(getMinY()<0 || getMaxY()>p.getHeight()) dy=-dy;
+
+        if(getY() > b.getY()-10) {
+            System.out.println(getX()+" y:" + getY());
+            if(getX()>b.getX() && getX() < b.getX() + 60) {
+                dy=-dy;
+            }
+//            else {
+//                p.player_lives--;
+//                if(p.player_lives < 1)
+//                    p.gameOver(p);
+//                p.minusLive();
+//            }
+//        }
+//        for (Cegielki i: p.c) {
+//            if(hit.intersects(i)) {
+//                dy =- dy;
+//                i.remove();
+//                p.score++;
+//                if(p.score >= 18){
+//                    p.youWin(p);
+//                }
+//                p.repaint();
+//            }
+        }
 
         p.repaint();
     }
@@ -37,10 +64,12 @@ class Kulka extends Ellipse2D.Float
 class SilnikKulki extends Thread
 {
     Kulka a;
+    Belka b;
 
-    SilnikKulki(Kulka a)
+    SilnikKulki(Kulka a, Belka b)
     {
         this.a=a;
+        this.b=b;
         start();
     }
 
@@ -50,8 +79,8 @@ class SilnikKulki extends Thread
         {
             while(true)
             {
-                a.nextKrok();
-                sleep(15);
+                a.nextKrok(b);
+                sleep(10);
             }
         }
         catch(InterruptedException e){}
@@ -102,7 +131,7 @@ class Plansza extends JPanel implements MouseMotionListener
         addMouseMotionListener(this);
         b=new Belka(this, 100);
         a=new Kulka(this,100,100,1,1);
-        s=new SilnikKulki(a);
+        s=new SilnikKulki(a, b);
     }
 
     void post_init(){
