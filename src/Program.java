@@ -10,6 +10,7 @@ class Kulka extends Ellipse2D.Float
 {
     Plansza p;
     int dx,dy;
+    int lives = 3;
     Rectangle2D.Float hit;
 
     Kulka(Plansza p,int x,int y,int dx,int dy)
@@ -32,10 +33,15 @@ class Kulka extends Ellipse2D.Float
         hit.y = y += dy;
 
         if(getMinX()<0 || getMaxX()>p.getWidth())  dx=-dx;
-        if(getMinY()<0 || getMaxY()>p.getHeight()) dy=-dy;
+        //if(getMinY()<0 || getMaxY()>p.getHeight()) dy=-dy;
+        if(getMinY()<0){
+            dy=-dy;
+        }else if(getMaxY()>p.getHeight()){
+            dy=-dy; lives--; System.out.println(lives);
+        }
 
         if(getY() > this.p.b.getY()-10) {
-            System.out.println(getX()+" y:" + getY());
+            //System.out.println(getX()+" y:" + getY());
             if(getX()>this.p.b.getX() && getX() < this.p.b.getX() + 60) {
                 dy=- Math.abs(dy);
             }
