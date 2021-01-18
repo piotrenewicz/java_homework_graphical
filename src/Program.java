@@ -193,8 +193,9 @@ class Plansza extends JPanel implements MouseMotionListener
 
         g2d.fill(a);
         g2d.fill(b);
-        g2d.drawString(String.valueOf(score), 10, 300);
-        g2d.drawString(String.valueOf(lives), 300, 300);
+        g2d.drawString("Punkty: " + String.valueOf(score), 10, 300);
+        g2d.drawString("Pozostałe życia: " + String.valueOf(lives), 10, 285);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         for(Cegielka to_draw : cegly_na_planszy){
             if(to_draw.active) g2d.fill(to_draw);
         }
