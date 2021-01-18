@@ -30,6 +30,7 @@ class Kulka extends Ellipse2D.Float
 
     void gameOver(){
         if (p.lives == 0){
+            p.gameState = 1;
             JFrame game_over = new JFrame();
             JOptionPane.showMessageDialog(game_over, "Przegrałeś! Punkty: "+ p.score);
             System.exit(0);
@@ -38,6 +39,7 @@ class Kulka extends Ellipse2D.Float
 
     void gameWon(){
         if (p.score == 28){
+            p.gameState = 2;
             JFrame game_over = new JFrame();
             JOptionPane.showMessageDialog(game_over, "Wygrałeś! Punkty: 28");
             System.exit(0);
@@ -49,11 +51,11 @@ class Kulka extends Ellipse2D.Float
         hit.x = x += dx;
         hit.y = y += dy;
 
-        if(getMinX()<0 || getMaxX()>p.getWidth())  dx=-dx;
+        if(hit.x<0 || hit.x>p.getWidth()-width)  dx=-dx;
         //if(getMinY()<0 || getMaxY()>p.getHeight()) dy=-dy;
-        if(getMinY()<0){
-            dy=-dy;
-        }else if(getMaxY()>p.getHeight()){
+        if(hit.y<0){
+            dy=Math.abs(dy);
+        }else if(hit.y>p.getHeight()-height){
             dy=-dy; p.lives--;
         }
 
@@ -71,7 +73,7 @@ class Kulka extends Ellipse2D.Float
 //            }
         for (Cegielka i: this.p.cegly_na_planszy) {
             if(i.active && hit.intersects(i)) {
-                if(this.x > i.x && this.x < i.x + i.width) {
+                if(this.x > i.x && this.x-this.width < i.x + i.width) {
                     dy = -dy; p.score++;
                 }else {
                     dx = -dx; p.score++;
@@ -83,8 +85,6 @@ class Kulka extends Ellipse2D.Float
 //                p.repaint();
             }
         }
-
-        p.repaint();
     }
 }
 class SilnikKulki extends Thread
@@ -101,7 +101,7 @@ class SilnikKulki extends Thread
     {
         try
         {
-            while(true)
+            while(a.p.gameState == 0)
             {
                 a.nextKrok();
                 sleep(6);
@@ -142,8 +142,29 @@ class Belka extends Rectangle2D.Float
         this.x=x;
     }
 }
+class FrameRateController extends Thread{
+    Plansza p;
+    FrameRateController(Plansza p){
+        this.p = p;
+        start();
+    }
+
+    public void run(){
+        try
+        {
+            while(p.gameState == 0)
+            {
+                p.repaint();
+                sleep(1);
+            }
+        }
+        catch(InterruptedException e){}
+    }
+
+}
 class Plansza extends JPanel implements MouseMotionListener
 {
+    int gameState = 0;
     Belka b;
     Kulka a;
     SilnikKulki s;
@@ -164,6 +185,7 @@ class Plansza extends JPanel implements MouseMotionListener
         a=new Kulka(this,100,100,1,1);
         s=new SilnikKulki(a);
         populate_cegly();
+        new FrameRateController(this);
     }
 
     void populate_cegly(){
@@ -203,7 +225,6 @@ class Plansza extends JPanel implements MouseMotionListener
     public void mouseMoved(MouseEvent e)
     {
         b.setX(e.getX()-50);
-        repaint();
     }
 
     public void mouseDragged(MouseEvent e)
