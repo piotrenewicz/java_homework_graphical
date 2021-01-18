@@ -16,8 +16,8 @@ class Kulka extends Ellipse2D.Float
 
     Kulka(Plansza p,int x,int y,int dx,int dy)
     {
-        this.x=x;
-        this.y=y;
+        this.x=100;
+        this.y=100;
         this.width=10;
         this.height=10;
 
@@ -71,7 +71,6 @@ class Kulka extends Ellipse2D.Float
 class SilnikKulki extends Thread
 {
     Kulka a;
-    Belka b;
 
     SilnikKulki(Kulka a)
     {
@@ -86,7 +85,7 @@ class SilnikKulki extends Thread
             while(true)
             {
                 a.nextKrok();
-                sleep(10);
+                sleep(6);
             }
         }
         catch(InterruptedException e){}
@@ -203,8 +202,8 @@ public class Program
 
                 JFrame jf=new JFrame();
                 jf.add(p);
-
-                jf.setTitle("Test grafiki");
+                jf.setResizable(false);
+                jf.setTitle("Arkanoid");
                 jf.setSize(400,370);
                 jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jf.setVisible(true);
