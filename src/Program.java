@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.StyledEditorKit;
 //import java.awt.List;
 import java.awt.event.*;
 import java.awt.*;
@@ -40,18 +41,15 @@ class Kulka extends Ellipse2D.Float
             dy=-dy; lives--; System.out.println(lives);
         }
 
-        if(getY() > this.p.b.getY()-10) {
-            //System.out.println(getX()+" y:" + getY());
-            if(getX()>this.p.b.getX() && getX() < this.p.b.getX() + 60) {
+        if(hit.intersects(this.p.b)) {
                 dy=- Math.abs(dy);
-            }
+        }
 //            else {
 //                p.player_lives--;
 //                if(p.player_lives < 1)
 //                    p.gameOver(p);
 //                p.minusLive();
 //            }
-        }
         for (Cegielka i: this.p.cegly_na_planszy) {
             if(i.active && hit.intersects(i)) {
                 if(this.x > i.x && this.x < i.x + i.width) {
@@ -115,7 +113,7 @@ class Belka extends Rectangle2D.Float
     {
         this.p = p;
         this.x=x;
-        this.y=0;
+        this.y=p.getHeight()-20;
         this.width=60;
         this.height=10;
     }
@@ -123,7 +121,6 @@ class Belka extends Rectangle2D.Float
     void setX(int x)
     {
         this.x=x;
-        this.y = p.getHeight()-20;
     }
 }
 class Plansza extends JPanel implements MouseMotionListener
@@ -132,11 +129,17 @@ class Plansza extends JPanel implements MouseMotionListener
     Kulka a;
     SilnikKulki s;
     List<Cegielka> cegly_na_planszy = new ArrayList<Cegielka>();
+    Boolean late_init_done = false;
 
     Plansza()
     {
         super();
         addMouseMotionListener(this);
+
+    }
+
+    void late_init(){
+        late_init_done = true;
         b=new Belka(this, 100);
         a=new Kulka(this,100,100,1,1);
         s=new SilnikKulki(a);
@@ -166,6 +169,7 @@ class Plansza extends JPanel implements MouseMotionListener
     {
         super.paintComponent(g);
         Graphics2D g2d=(Graphics2D)g;
+        if(!late_init_done) late_init();
 
         g2d.fill(a);
         g2d.fill(b);
