@@ -11,7 +11,7 @@ class Kulka extends Ellipse2D.Float
 {
     Plansza p;
     int dx,dy;
-    int lives = 3;
+    //int lives = 3, score = 0;
     Rectangle2D.Float hit;
 
     Kulka(Plansza p,int x,int y,int dx,int dy)
@@ -29,9 +29,17 @@ class Kulka extends Ellipse2D.Float
     }
 
     void gameOver(){
-        if (this.lives < 0){
+        if (p.lives < 0){
             JFrame game_over = new JFrame();
-            JOptionPane.showMessageDialog(game_over, "Przegrałeś!");
+            JOptionPane.showMessageDialog(game_over, "Przegrałeś! Punkty: "+ p.score);
+            System.exit(0);
+        }
+    }
+
+    void gameWon(){
+        if (p.score == 28){
+            JFrame game_over = new JFrame();
+            JOptionPane.showMessageDialog(game_over, "Wygrałeś! Punkty: 28");
             System.exit(0);
         }
     }
@@ -46,9 +54,12 @@ class Kulka extends Ellipse2D.Float
         if(getMinY()<0){
             dy=-dy;
         }else if(getMaxY()>p.getHeight()){
-            dy=-dy; lives--; System.out.println(lives);
+            dy=-dy; p.lives--;
         }
+
+        gameWon();
         gameOver();
+
         if(hit.intersects(this.p.b)) {
                 dy=- Math.abs(dy);
         }
@@ -61,9 +72,9 @@ class Kulka extends Ellipse2D.Float
         for (Cegielka i: this.p.cegly_na_planszy) {
             if(i.active && hit.intersects(i)) {
                 if(this.x > i.x && this.x < i.x + i.width) {
-                    dy = -dy;
+                    dy = -dy; p.score++;
                 }else {
-                    dx = -dx;
+                    dx = -dx; p.score++;
                 }
                 i.active = false;
 //                p.score++;
@@ -116,6 +127,7 @@ class Belka extends Rectangle2D.Float
 {
     Plansza p;
 
+
     Belka(Plansza p, int x)
     {
         this.p = p;
@@ -137,6 +149,7 @@ class Plansza extends JPanel implements MouseMotionListener
     SilnikKulki s;
     List<Cegielka> cegly_na_planszy = new ArrayList<Cegielka>();
     Boolean late_init_done = false;
+    int score = 0, lives = 3;
 
     Plansza()
     {
