@@ -29,7 +29,7 @@ class Kulka extends Ellipse2D.Float
     }
 
     void gameOver(){
-        if (p.lives < 0){
+        if (p.lives == 0){
             JFrame game_over = new JFrame();
             JOptionPane.showMessageDialog(game_over, "Przegrałeś! Punkty: "+ p.score);
             System.exit(0);
@@ -193,6 +193,8 @@ class Plansza extends JPanel implements MouseMotionListener
 
         g2d.fill(a);
         g2d.fill(b);
+        g2d.drawString(String.valueOf(score), 10, 300);
+        g2d.drawString(String.valueOf(lives), 300, 300);
         for(Cegielka to_draw : cegly_na_planszy){
             if(to_draw.active) g2d.fill(to_draw);
         }
