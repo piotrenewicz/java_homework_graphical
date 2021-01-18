@@ -26,7 +26,7 @@ class Kulka extends Ellipse2D.Float
         this.hit = new Rectangle2D.Float(x, y, 10, 10);
     }
 
-    void nextKrok(Belka b)
+    void nextKrok()
     {
         hit.x = x += dx;
         hit.y = y += dy;
@@ -34,10 +34,10 @@ class Kulka extends Ellipse2D.Float
         if(getMinX()<0 || getMaxX()>p.getWidth())  dx=-dx;
         if(getMinY()<0 || getMaxY()>p.getHeight()) dy=-dy;
 
-        if(getY() > b.getY()-10) {
+        if(getY() > this.p.b.getY()-10) {
             System.out.println(getX()+" y:" + getY());
-            if(getX()>b.getX() && getX() < b.getX() + 60) {
-                dy=-dy;
+            if(getX()>this.p.b.getX() && getX() < this.p.b.getX() + 60) {
+                dy=- Math.abs(dy);
             }
 //            else {
 //                p.player_lives--;
@@ -45,17 +45,20 @@ class Kulka extends Ellipse2D.Float
 //                    p.gameOver(p);
 //                p.minusLive();
 //            }
-//        }
-//        for (Cegielki i: p.c) {
-//            if(hit.intersects(i)) {
-//                dy =- dy;
-//                i.remove();
+        }
+        for (Cegielka i: this.p.cegly_na_planszy) {
+            if(i.active && hit.intersects(i)) {
+                if(this.x > i.x && this.x < i.x + i.width) {
+                    dy = -dy;
+                }else {
+                    dx = -dx;
+                }
+                i.active = false;
 //                p.score++;
 //                if(p.score >= 18){
 //                    p.youWin(p);
-//                }
 //                p.repaint();
-//            }
+            }
         }
 
         p.repaint();
@@ -66,10 +69,9 @@ class SilnikKulki extends Thread
     Kulka a;
     Belka b;
 
-    SilnikKulki(Kulka a, Belka b)
+    SilnikKulki(Kulka a)
     {
         this.a=a;
-        this.b=b;
         start();
     }
 
@@ -79,7 +81,7 @@ class SilnikKulki extends Thread
         {
             while(true)
             {
-                a.nextKrok(b);
+                a.nextKrok();
                 sleep(10);
             }
         }
@@ -131,28 +133,25 @@ class Plansza extends JPanel implements MouseMotionListener
         addMouseMotionListener(this);
         b=new Belka(this, 100);
         a=new Kulka(this,100,100,1,1);
-        s=new SilnikKulki(a, b);
-    }
-
-    void post_init(){
+        s=new SilnikKulki(a);
         populate_cegly();
     }
 
     void populate_cegly(){
-        int hpad = 10;
-        int vpad = 10;
+        int hpad = 5;
+        int vpad = 3;
         int brick_w = 50;
-        int brick_h = 10;
-        int populating_x = 0;
+        int brick_h = 15;
+        int populating_x = 5;
         int populating_y = 0;
-        for(int _y = 0; _y < 5; _y++){
+        for(int _y = 0; _y < 4; _y++){
             populating_y += vpad;
-            for(int _x =0; _x< 5; _x++){
+            for(int _x =0; _x< 7; _x++){
                 populating_x += hpad;
                 this.cegly_na_planszy.add(new Cegielka(populating_x, populating_y, brick_w, brick_h));
                 populating_x += brick_w;
             }
-            populating_x = 0;
+            populating_x = 5;
             populating_y += brick_h;
         }
     }
@@ -180,6 +179,7 @@ class Plansza extends JPanel implements MouseMotionListener
 
     }
 }
+
 public class Program
 {
     public static void main(String[] args)
